@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "MCP Server Boilerplate": {
+    "Node.js MCP Server": {
       "command": "/path/to/node",
       "args": ["/path/to/mcp-server.js"],
       "env": {
