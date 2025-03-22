@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "MCP Server Boilerplate": {
+      "command": "/path/to/node",
+      "args": ["/path/to/mcp-server.js"],
+      "env": {
+        "API_KEY": "abc-1234567890"
+      }
+    }
+  }
+}
