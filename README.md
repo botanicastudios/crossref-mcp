@@ -53,16 +53,6 @@ This project demonstrates an MCP server boilerplate that provides two basic tool
    "type": "module"
    ```
 
-3. **Ensure Node.js Version 20+**
-
-   Confirm your Node.js version by running:
-
-   ```bash
-   node -v
-   ```
-
-   Update Node.js if necessary.
-
 ## Integrating with Cursor AI
 
 This project includes a `./cursor` subdirectory that contains an `mcp.json` file for configuring the MCP server. Cursor AI uses this file to automatically discover and launch your MCP server. Open the file and update the fields as follows:
