@@ -1,10 +1,10 @@
-# MCP Server Boilerplate
+# MCP Server in Node.js
 
 ## Overview
 
 **MCP (Model Context Protocol)** is a framework that allows you to integrate custom tools into AI-assisted development environments—such as Cursor AI. MCP servers expose functionality (like data retrieval or code analysis) so that an LLM-based IDE can call these tools on demand. Learn more about MCP in the [Model Context Protocol Introduction](https://modelcontextprotocol.io/introduction).
 
-This project demonstrates an MCP server boilerplate that provides two basic tools. One tool, **add**, accepts two numbers and returns their sum, while the other, **getApiKey**, retrieves the API key from the environment (via the `API_KEY` variable).
+This project demonstrates an MCP server built in Node.js that provides two basic tools. One tool, **add**, accepts two numbers and returns their sum, while the other, **getApiKey**, retrieves the API key from the environment (via the `API_KEY` variable).
 
 ## Requirements
 
@@ -92,7 +92,7 @@ Below is the full JSON structure of the configuration file:
   An array containing the absolute path to your MCP server file. For example:
 
   ```
-  ["/home/john/mcp-server-boilerplate/index.js"]
+  ["/home/john/mcp-server-node/index.js"]
   ```
 
 - **env:** (Optional)  
