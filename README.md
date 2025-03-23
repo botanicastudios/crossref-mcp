@@ -137,9 +137,11 @@ The project comprises the following key parts:
 
 **Model Context Protocol (MCP)** provides a standardized approach to integrate custom tools into AI-assisted development environments. With MCP, you can define tools that perform specific tasks—such as retrieving external data, validating code, or enforcing coding standards—and the AI assistant in your IDE can call these tools automatically based on context. This helps improve developer productivity, ensures consistent quality, and streamlines workflows.
 
-## Reference
+## References & Resources
 
-[Use Your Own MCP on Cursor in 5 Minutes](https://dev.to/andyrewlee/use-your-own-mcp-on-cursor-in-5-minutes-1ag4)
+- [Model Context Protocol: typescript-sdk](https://github.com/modelcontextprotocol/typescript-sdk)
+- [Use Your Own MCP on Cursor in 5 Minutes](https://dev.to/andyrewlee/use-your-own-mcp-on-cursor-in-5-minutes-1ag4)
+- [Model Context Protocol Introduction](https://modelcontextprotocol.io/introduction)
 
 ## License
 
