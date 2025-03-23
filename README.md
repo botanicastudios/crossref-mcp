@@ -100,7 +100,7 @@ Below is the full JSON structure of the configuration file:
 
 You can verify the absolute path to your Node.js executable by running `which node` in your terminal.
 
-## Optional: Configuration Automation Scripts
+### Optional: Configuration Automation Scripts
 
 Easily configure your local environment by automatically updating the mcp.json file with the correct absolute paths. To apply your local settings, run the following commands from your project root:
 
