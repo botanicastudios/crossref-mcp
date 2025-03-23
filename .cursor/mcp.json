@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "Node.js MCP Server": {
-      "command": "/path/to/node",
-      "args": ["/path/to/mcp-server.js"],
+      "command": "/home/luciano/.nvm/versions/node/v20.13.1/bin/node",
+      "args": ["/home/luciano/dev/mcp-server-node/mcp-server.js"],
       "env": {
         "API_KEY": "abc-1234567890"
       }
