@@ -100,9 +100,20 @@ Below is the full JSON structure of the configuration file:
 
 You can verify the absolute path to your Node.js executable by running `which node` in your terminal.
 
-### Optional: Global Configuration
+## Optional: Configuration Automation Scripts
 
-If desired, you can move the `mcp.json` file from the `./cursor` subdirectory to your global Cursor AI configuration directory located at `~/.cursor`. This allows Cursor AI to recognize your MCP server configuration globally.
+Easily configure your local environment by automatically updating the mcp.json file with the correct absolute paths. To apply your local settings, run the following commands from your project root:
+
+```bash
+chmod +x ./scripts/update_config.sh
+./scripts/update_config.sh
+```
+
+This script replaces the placeholder paths in mcp.json with your machine’s absolute paths for Python and the server script, ensuring your configuration settings are always accurate.
+
+### Optional: Global Cursor settings
+
+You can also move the `mcp.json` file to your global Cursor AI configuration directory located at `~/.cursor` to make the configuration available globally.
 
 ## Using the MCP Tool in Cursor Composer (Agent Mode)
 
