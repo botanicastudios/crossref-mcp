@@ -20,7 +20,7 @@ const CROSSREF_SELECT_FIELDS =
 // Search works by title
 server.tool(
   "searchByTitle",
-  "Search for works by title in Crossref",
+  "Search for scientific papers by title in Crossref",
   {
     title: z.string().describe("The title to search for"),
     rows: z
@@ -109,7 +109,7 @@ server.tool(
 // Search works by author
 server.tool(
   "searchByAuthor",
-  "Search for works by author in Crossref",
+  "Search for scientific papers by author in Crossref",
   {
     author: z.string().describe("The author name to search for"),
     rows: z
@@ -198,7 +198,7 @@ server.tool(
 // Get work by DOI
 server.tool(
   "getWorkByDOI",
-  "Retrieve a specific work by its DOI",
+  "Retrieve a specific scientific paper by its DOI",
   {
     doi: z.string().describe("The DOI to look up"),
   },
@@ -211,7 +211,7 @@ server.tool(
       const url = `${CROSSREF_API_BASE}/works/${cleanDoi}?select=${CROSSREF_SELECT_FIELDS}`;
       const response = await fetch(url, {
         headers: {
-          "User-Agent": "Crossref MCP Server (mailto:your-email@example.com)",
+          "User-Agent": "Crossref MCP Server",
         },
       });
 

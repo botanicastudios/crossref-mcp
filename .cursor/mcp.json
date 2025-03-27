@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "Node.js MCP Server": {
+    "crossref": {
       "command": "npx",
       "args": [
         "-y",

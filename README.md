@@ -8,18 +8,21 @@ A Model Context Protocol (MCP) server for interacting with the Crossref API.
 - Search works by author
 - Get work details by DOI
 
-## Setup
+## Installation
 
-1. Install dependencies:
-
-   ```
-   npm install
-   ```
-
-2. Start the server:
-   ```
-   npm start
-   ```
+```
+{
+  "mcpServers": {
+    "crossref": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@botanicastudios/crossref-mcp"
+      ]
+    }
+  }
+}
+```
 
 ## Usage
 
