@@ -26,12 +26,16 @@ export const handlers = {
         return {
           content: [
             {
-              type: "json",
-              json: {
-                status: "no_results",
-                query: { title, rows },
-                results: [],
-              },
+              type: "text",
+              text: JSON.stringify(
+                {
+                  status: "no_results",
+                  query: { title, rows },
+                  results: [],
+                },
+                null,
+                2
+              ),
             },
           ],
         };
@@ -42,13 +46,17 @@ export const handlers = {
       return {
         content: [
           {
-            type: "json",
-            json: {
-              status: "success",
-              query: { title, rows },
-              count: formattedWorks.length,
-              results: formattedWorks,
-            },
+            type: "text",
+            text: JSON.stringify(
+              {
+                status: "success",
+                query: { title, rows },
+                count: formattedWorks.length,
+                results: formattedWorks,
+              },
+              null,
+              2
+            ),
           },
         ],
       };
@@ -56,12 +64,16 @@ export const handlers = {
       return {
         content: [
           {
-            type: "json",
-            json: {
-              status: "error",
-              message: error.message,
-              query: { title, rows },
-            },
+            type: "text",
+            text: JSON.stringify(
+              {
+                status: "error",
+                message: error.message,
+                query: { title, rows },
+              },
+              null,
+              2
+            ),
           },
         ],
       };
@@ -91,12 +103,16 @@ export const handlers = {
         return {
           content: [
             {
-              type: "json",
-              json: {
-                status: "no_results",
-                query: { author, rows },
-                results: [],
-              },
+              type: "text",
+              text: JSON.stringify(
+                {
+                  status: "no_results",
+                  query: { author, rows },
+                  results: [],
+                },
+                null,
+                2
+              ),
             },
           ],
         };
@@ -107,13 +123,17 @@ export const handlers = {
       return {
         content: [
           {
-            type: "json",
-            json: {
-              status: "success",
-              query: { author, rows },
-              count: formattedWorks.length,
-              results: formattedWorks,
-            },
+            type: "text",
+            text: JSON.stringify(
+              {
+                status: "success",
+                query: { author, rows },
+                count: formattedWorks.length,
+                results: formattedWorks,
+              },
+              null,
+              2
+            ),
           },
         ],
       };
@@ -121,12 +141,16 @@ export const handlers = {
       return {
         content: [
           {
-            type: "json",
-            json: {
-              status: "error",
-              message: error.message,
-              query: { author, rows },
-            },
+            type: "text",
+            text: JSON.stringify(
+              {
+                status: "error",
+                message: error.message,
+                query: { author, rows },
+              },
+              null,
+              2
+            ),
           },
         ],
       };
@@ -157,12 +181,16 @@ export const handlers = {
         return {
           content: [
             {
-              type: "json",
-              json: {
-                status: "not_found",
-                query: { doi },
-                message: `No work found with DOI: ${doi}`,
-              },
+              type: "text",
+              text: JSON.stringify(
+                {
+                  status: "not_found",
+                  query: { doi },
+                  message: `No work found with DOI: ${doi}`,
+                },
+                null,
+                2
+              ),
             },
           ],
         };
@@ -173,12 +201,16 @@ export const handlers = {
       return {
         content: [
           {
-            type: "json",
-            json: {
-              status: "success",
-              query: { doi },
-              result: formattedWork,
-            },
+            type: "text",
+            text: JSON.stringify(
+              {
+                status: "success",
+                query: { doi },
+                result: formattedWork,
+              },
+              null,
+              2
+            ),
           },
         ],
       };
@@ -186,12 +218,16 @@ export const handlers = {
       return {
         content: [
           {
-            type: "json",
-            json: {
-              status: "error",
-              message: error.message,
-              query: { doi },
-            },
+            type: "text",
+            text: JSON.stringify(
+              {
+                status: "error",
+                message: error.message,
+                query: { doi },
+              },
+              null,
+              2
+            ),
           },
         ],
       };
