@@ -1,43 +1,17 @@
-#!/usr/bin/env node
-
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { z } from "zod";
-import fetch from "node-fetch";
+// Import the formatWorkToJson helper
 import { formatWorkToJson } from "./mcp-server-utils.js";
 
-const server = new McpServer({
-  name: "Crossref MCP Server",
-  version: "0.0.1",
-});
-
-// Base URL for Crossref API
-const CROSSREF_API_BASE = "https://api.crossref.org";
-
-// Fields to select from the Crossref API
-const CROSSREF_SELECT_FIELDS =
-  "DOI,URL,abstract,author,container-title,issue,published,publisher,title,type,volume";
-
-// Search works by title
-server.tool(
-  "searchByTitle",
-  "Search for works by title in Crossref",
-  {
-    title: z.string().describe("The title to search for"),
-    rows: z
-      .number()
-      .optional()
-      .default(5)
-      .describe("Number of results to return"),
-  },
-  async ({ title, rows }) => {
+// Handlers for testing
+export const handlers = {
+  // Search by title handler
+  searchByTitle: async ({ title, rows = 5 }) => {
     try {
-      const url = `${CROSSREF_API_BASE}/works?query.title=${encodeURIComponent(
+      const url = `https://api.crossref.org/works?query.title=${encodeURIComponent(
         title
-      )}&rows=${rows}&select=${CROSSREF_SELECT_FIELDS}`;
+      )}&rows=${rows}`;
       const response = await fetch(url, {
         headers: {
-          "User-Agent": "Crossref MCP Server",
+          "User-Agent": "Crossref MCP Server Test",
         },
       });
 
@@ -92,29 +66,17 @@ server.tool(
         ],
       };
     }
-  }
-);
-
-// Search works by author
-server.tool(
-  "searchByAuthor",
-  "Search for works by author in Crossref",
-  {
-    author: z.string().describe("The author name to search for"),
-    rows: z
-      .number()
-      .optional()
-      .default(5)
-      .describe("Number of results to return"),
   },
-  async ({ author, rows }) => {
+
+  // Search by author handler
+  searchByAuthor: async ({ author, rows = 5 }) => {
     try {
-      const url = `${CROSSREF_API_BASE}/works?query.author=${encodeURIComponent(
+      const url = `https://api.crossref.org/works?query.author=${encodeURIComponent(
         author
-      )}&rows=${rows}&select=${CROSSREF_SELECT_FIELDS}`;
+      )}&rows=${rows}`;
       const response = await fetch(url, {
         headers: {
-          "User-Agent": "Crossref MCP Server",
+          "User-Agent": "Crossref MCP Server Test",
         },
       });
 
@@ -169,26 +131,18 @@ server.tool(
         ],
       };
     }
-  }
-);
-
-// Get work by DOI
-server.tool(
-  "getWorkByDOI",
-  "Retrieve a specific work by its DOI",
-  {
-    doi: z.string().describe("The DOI to look up"),
   },
-  async ({ doi }) => {
+
+  // Get work by DOI handler
+  getWorkByDOI: async ({ doi }) => {
     try {
       // Remove any URL prefix if present
       const cleanDoi = doi.replace(/^https?:\/\/doi.org\//, "");
 
-      // Use the direct Crossref API endpoint
-      const url = `${CROSSREF_API_BASE}/works/${cleanDoi}?select=${CROSSREF_SELECT_FIELDS}`;
+      const url = `https://api.crossref.org/works/${cleanDoi}`;
       const response = await fetch(url, {
         headers: {
-          "User-Agent": "Crossref MCP Server (mailto:your-email@example.com)",
+          "User-Agent": "Crossref MCP Server Test",
         },
       });
 
@@ -242,32 +196,10 @@ server.tool(
         ],
       };
     }
-  }
-);
+  },
 
-// Add a method to get the tools (for testing)
-server.getTools = function () {
-  return {
-    searchByTitle: {
-      name: "searchByTitle",
-      handler: this._tools.get("searchByTitle").handler,
-    },
-    searchByAuthor: {
-      name: "searchByAuthor",
-      handler: this._tools.get("searchByAuthor").handler,
-    },
-    getWorkByDOI: {
-      name: "getWorkByDOI",
-      handler: this._tools.get("getWorkByDOI").handler,
-    },
-  };
+  // Add handler
+  add: async ({ a, b }) => ({
+    content: [{ type: "text", text: String(a + b) }],
+  }),
 };
-
-const transport = new StdioServerTransport();
-
-// Only connect if not being imported for testing
-if (!process.env.VITEST) {
-  await server.connect(transport);
-}
-
-export default server;

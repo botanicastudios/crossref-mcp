@@ -1,159 +1,172 @@
-# MCP Server in Node.js
+# Crossref MCP Server
 
-## Overview
-
-**MCP (Model Context Protocol)** is a framework that allows you to integrate custom tools into AI-assisted development environments—such as Cursor AI. MCP servers expose functionality (like data retrieval or code analysis) so that an LLM-based IDE can call these tools on demand. Learn more about MCP in the [Model Context Protocol Introduction](https://modelcontextprotocol.io/introduction).
-
-This project demonstrates an MCP server built in Node.js that provides two basic tools. One tool, **add**, accepts two numbers and returns their sum, while the other, **getApiKey**, retrieves the API key from the environment (via the `API_KEY` variable).
-
-## Requirements
-
-- **Node.js:** Version 20 or higher is required.
+A Model Context Protocol (MCP) server for interacting with the Crossref API.
 
 ## Features
 
-- **MCP Integration:** Exposes tool functionality to LLM-based IDEs.
-- **Addition Tool:** Accepts two numeric parameters and returns their sum.
-- **Env Var Retrieval:** Demonstrates how to load an example environment variable from the configuration file.
-- **Input Validation:** Uses [Zod](https://github.com/colinhacks/zod) for schema validation.
-- **Standard I/O Transport:** Connects via `StdioServerTransport` for integration with development environments.
+- Search works by title
+- Search works by author
+- Get work details by DOI
 
-## Installation
+## Setup
 
-1. **Clone the Repository**
+1. Install dependencies:
 
-   ```bash
-   git clone <repository_url>
-   cd <repository_directory>
    ```
-
-2. **Install Dependencies**
-
-   You can install the project dependencies in one of two ways:
-
-   **Option 1: Install using the existing `package.json`**
-
-   Simply run:
-
-   ```bash
    npm install
    ```
 
-   **Option 2: Install dependencies manually**
-
-   If you prefer, delete the existing `package.json` and install the required packages manually:
-
-   ```bash
-   npm install @modelcontextprotocol/sdk @coinpaprika/api-nodejs-client zod
+2. Start the server:
+   ```
+   npm start
    ```
 
-   Then, update the newly generated `package.json` file to include the following line, which enables ES Modules:
+## Usage
 
-   ```json
-   "type": "module"
-   ```
+The server provides three main tools:
 
-## Integrating with Cursor AI
+### 1. Search by Title
 
-This project includes a `./cursor` subdirectory that contains an `mcp.json` file for configuring the MCP server. Cursor AI uses this file to automatically discover and launch your MCP server. Open the file and update the fields as follows:
+Search for works in Crossref by title:
 
-### The `./cursor/mcp.json` Structure
+```javascript
+// Example: Search for works containing "quantum computing" in the title
+{
+  "title": "quantum computing",
+  "rows": 5  // Optional, defaults to 5
+}
+```
 
-Below is the full JSON structure of the configuration file:
+### 2. Search by Author
+
+Search for works in Crossref by author:
+
+```javascript
+// Example: Search for works by "Einstein"
+{
+  "author": "Einstein",
+  "rows": 5  // Optional, defaults to 5
+}
+```
+
+### 3. Get Work by DOI
+
+Retrieve a specific work using its DOI:
+
+```javascript
+// Example: Get work with DOI "10.1088/1742-6596/1398/1/012023"
+{
+  "doi": "10.1088/1742-6596/1398/1/012023"
+}
+```
+
+## Response Format
+
+All responses are returned as structured JSON objects with the following format:
+
+### For successful searches:
 
 ```json
 {
-  "mcpServers": {
-    "MCP Server Boilerplate": {
-      "command": "/path/to/node",
-      "args": ["/path/to/mcp-server.js"],
-      "env": {
-        "API_KEY": "abc-1234567890"
-      }
+  "status": "success",
+  "query": {
+    /* the original query parameters */
+  },
+  "count": 5,
+  "results": [
+    {
+      "title": "Work title",
+      "authors": [
+        {
+          "given": "First name",
+          "family": "Last name",
+          "name": "First name Last name"
+        }
+      ],
+      "published": {
+        "dateParts": [2023, 1, 15],
+        "dateString": "2023-1-15"
+      },
+      "type": "journal-article",
+      "doi": "10.xxxx/xxxxx",
+      "url": "https://doi.org/10.xxxx/xxxxx",
+      "container": "Journal Name",
+      "publisher": "Publisher Name",
+      "issue": "1",
+      "volume": "42",
+      "abstract": "This is the abstract of the work, if available."
     }
+    // additional results...
+  ]
+}
+```
+
+### For single DOI lookup:
+
+```json
+{
+  "status": "success",
+  "query": { "doi": "10.xxxx/xxxxx" },
+  "result": {
+    // work details as shown above
   }
 }
 ```
 
-- **mcpServers:**  
-  An object mapping server names to their configuration.
+### For errors or no results:
 
-- **MCP Server Boilerplate:**  
-  This is the key for your server configuration. You can name it as you like.
-
-- **command:**  
-  Specifies the absolute path to your Node.js executable. For example:
-
-  ```
-  /home/john/.nvm/versions/node/v20.13.1/bin/node
-  ```
-
-- **args:**  
-  An array containing the absolute path to your MCP server file. For example:
-
-  ```
-  ["/home/john/mcp-server-node/index.js"]
-  ```
-
-- **env:** (Optional)  
-  Defines environment variables for your MCP server process. In this example, the `API_KEY` is set to `"abc-1234567890"`. Adjust this value as needed for your environment.
-
-You can verify the absolute path to your Node.js executable by running `which node` in your terminal.
-
-### Optional: Configuration Automation Scripts
-
-Easily configure your local environment by automatically updating the mcp.json file with the correct absolute paths. To apply your local settings, run the following commands from your project root:
-
-```bash
-chmod +x ./scripts/update_config.sh
-./scripts/update_config.sh
+```json
+{
+  "status": "error" | "no_results" | "not_found",
+  "message": "Error message" | null,
+  "query": { /* the original query parameters */ }
+}
 ```
 
-This script replaces the placeholder paths in mcp.json with your machine’s absolute paths for Python and the server script, ensuring your configuration settings are always accurate.
+## Testing
 
-### Optional: Global Cursor settings
+The server comes with a comprehensive test suite using Vitest. Tests cover all available tools and include various scenarios including successful responses, empty results, and error handling.
 
-You can also move the `mcp.json` file to your global Cursor AI configuration directory located at `~/.cursor` to make the configuration available globally.
-
-## Using the MCP Tool in Cursor Composer (Agent Mode)
-
-With the MCP server integrated into Cursor AI and with Agent mode enabled in Cursor Composer, simply use a natural language prompt like:
+### Running Tests
 
 ```
-add 3 and 5
+npm test
 ```
 
-or
+### Test Structure
 
+The tests use Vitest's mocking capabilities to simulate Crossref API responses without making actual network requests. The test structure includes:
+
+1. **Mock Data**: Sample responses for title searches, author searches, and DOI lookups
+2. **Mock Handlers**: Testing versions of the handler functions in `mcp-server-test-handlers.js`
+3. **Test Cases**: Tests for all tools covering:
+   - Successful API responses
+   - Empty result sets
+   - Error handling and network failures
+
+### Extending Tests
+
+To add more test cases:
+
+1. Add new mock data to the test file if needed
+2. Create additional test cases in the relevant describe block
+3. Use the `mockFetchResponse()` helper to simulate API responses
+
+Example:
+
+```javascript
+it("should handle a new edge case", async () => {
+  // Mock the response
+  mockFetchResponse({
+    // Your sample response data
+  });
+
+  // Call the handler
+  const result = await handlers.searchByTitle({ title: "example" });
+
+  // Assert the expected results
+  expect(result).toMatchObject({
+    // Expected response structure
+  });
+});
 ```
-what is my API key?
-```
-
-The AI agent will infer the available `add` or `getApiKey` tool from your MCP server and execute it accordingly.
-
-## Code Overview
-
-The project comprises the following key parts:
-
-- **MCP Server Initialization:**  
-  The MCP server is instantiated using `McpServer` from the MCP SDK and connected via `StdioServerTransport`.
-
-- **Tool Definitions:**
-  - **add:**  
-    Defined with a Zod schema that accepts two numbers (`a` and `b`) and returns their sum as text.
-  - **getApiKey:**  
-    Retrieves the API key from the environment variable `API_KEY` and returns it as text.
-
-## What is MCP?
-
-**Model Context Protocol (MCP)** provides a standardized approach to integrate custom tools into AI-assisted development environments. With MCP, you can define tools that perform specific tasks—such as retrieving external data, validating code, or enforcing coding standards—and the AI assistant in your IDE can call these tools automatically based on context. This helps improve developer productivity, ensures consistent quality, and streamlines workflows.
-
-## References & Resources
-
-- [Model Context Protocol: typescript-sdk](https://github.com/modelcontextprotocol/typescript-sdk)
-- [Use Your Own MCP on Cursor in 5 Minutes](https://dev.to/andyrewlee/use-your-own-mcp-on-cursor-in-5-minutes-1ag4)
-- [Model Context Protocol Introduction](https://modelcontextprotocol.io/introduction)
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).

@@ -1,11 +1,11 @@
 {
   "mcpServers": {
     "Node.js MCP Server": {
-      "command": "/path/to/node",
-      "args": ["/path/to/mcp-server.js"],
-      "env": {
-        "API_KEY": "abc-1234567890"
-      }
+      "command": "npx",
+      "args": [
+        "-y",
+        "@botanicastudios/crossref-mcp"
+      ]
     }
   }
 }
