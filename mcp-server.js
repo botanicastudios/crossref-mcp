@@ -208,7 +208,7 @@ server.tool(
       const cleanDoi = doi.replace(/^https?:\/\/doi.org\//, "");
 
       // Use the direct Crossref API endpoint
-      const url = `${CROSSREF_API_BASE}/works/${cleanDoi}?select=${CROSSREF_SELECT_FIELDS}`;
+      const url = `${CROSSREF_API_BASE}/works/${cleanDoi}`;
       const response = await fetch(url, {
         headers: {
           "User-Agent": "Crossref MCP Server",
