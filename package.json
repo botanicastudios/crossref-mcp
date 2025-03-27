@@ -1,6 +1,6 @@
 {
   "name": "@botanicastudios/crossref-mcp",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "MCP server for Crossref API",
   "main": "mcp-server.js",
   "type": "module",
@@ -13,10 +13,12 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.7.0",
-    "node-fetch": "^3.3.2",
     "zod": "^3.22.4"
   },
   "devDependencies": {
     "vitest": "^1.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

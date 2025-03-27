@@ -3,7 +3,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import fetch from "node-fetch";
 import { formatWorkToJson } from "./mcp-server-utils.js";
 
 const server = new McpServer({
